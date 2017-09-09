@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+    <header>
+        <title>个人信息系统</title>
+        <style>
+            .wrap {
+                margin-top: 150px;
+            }
+            .item {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .label {
+                width: 50px;
+            }
+        </style>
+    </header>
+    <body>
+        <!-- <form class="wrap" action="login" method="post"> -->
+        <div class="wrap">
+            <div class="item">
+                <label class="label">用户：</label><input placeholder="请输入用户名" name="username" id="userName"/>
+            </div>
+            <div class="item">
+                <label class="label">密码：</label><input type="password" placeholder="请输入密码" name="password" id="passWord"/>
+            </div>
+            <div class="item">
+                <button class="label" id="btnLogin">登录</button>
+            </div>
+        </div>
+        <!-- </form> -->
+        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#btnLogin').click(function () {
+                    var userName = $('#userName').val();
+                    var passWord = $('#passWord').val();
+                    $.ajax({
+                        url: '/login',
+                        type: 'POST',
+                        contentType: 'application/json;charset=utf-8',
+                        dataType:'json',
+                        data: JSON.stringify({
+                            userName,
+                            passWord
+                        }),
+                        success: function (res) {
+                            if (res.message === 'success') {
+                                location.href = '/personal.html';
+                            }
+                            else if (res.message === 'error') {
+                                alert('用户名或密码错误！');
+                            }
+                        }
+                    })
+                })
+            })
+        </script>
+    </body>
+</html>

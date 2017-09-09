@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+    <header>
+        <title>个人信息系统</title>
+        <style>
+            .wrap {
+                margin-top: 150px;
+                text-align: center;
+            }
+        </style>
+    </header>
+    <body>
+        <div class="wrap">
+            <div id="userName"></div>
+            <button id="btnLogout">登出</button>
+        </div>
+        <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    url: '/profile',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (res) {
+                        $('#userName').html(res.userName);
+                    }
+                })
+
+                $('#btnLogout').click(function () {
+                    $.ajax({
+                        url: '/logout',
+                        type: 'GET',
+                        contentType: 'application/json;charset=utf-8',
+                        success: function (res) {
+                            if (res.message === 'success') {
+                                location.href = '/login.html';
+                            }
+                        }
+                    })
+                })
+            })
+        </script>
+    </body>
+</html>
