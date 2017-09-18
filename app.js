@@ -3,10 +3,12 @@ var ejs = require('ejs');
 var bodyParser = require('body-parser')
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
+var path = require('path');
 var app = express();
 
 var gUserName = '123';                  // 配置用户名
 var gPassWord = '123';                  // 配置密码
+var gMaxHour = 3 * 60 * 1000;           // 配置session过期时间
 
 app.engine('html', ejs.__express);      // 设置html引擎，ejs模版
 app.set('view engine', 'html');         // 设置视图引擎
@@ -17,8 +19,14 @@ app.use(session({                       // 配置session
     resave: true,
     saveUninitialized: false,
     secret: '111',
-    cookie: { secure: false }
+    cookie: {
+        secure: false,
+        maxAge: gMaxHour                // session过期时间
+    },
+    name: 'sessionid'
 }));
+app.use(express.static(path.join(__dirname, 'static')));    // 设置静态文件路径
+
 
 // 登录页面
 app.get('/login.html', function (req, res) {
@@ -26,10 +34,11 @@ app.get('/login.html', function (req, res) {
 });
 // 个人信息页面
 app.get('/personal.html', function (req, res) {
-    if (!req.session.user) {                // 判断是否已登录，未登录渲染unlogin页面
+    if (!req.session.userName) {                // 判断是否已登录，未登录渲染unlogin页面
         res.render('unlogin');
     }
     else {
+        console.log(req.session.id, req.session.userName)
         res.render('personal');
     }
 });
@@ -39,7 +48,7 @@ app.post('/login', function (req, res) {
     var userName = req.body.userName;
     var passWord = req.body.passWord;
     if (userName === gUserName && passWord === gPassWord) {
-        req.session.user = {userName};
+        req.session.userName = {userName};
         res.send({message: 'success'});
     }
     else {
