@@ -19,7 +19,7 @@
         <script>
             $(document).ready(function () {
                 $.ajax({
-                    url: '/profile',
+                    url: 'http://localhost:3000/profile',
                     type: 'GET',
                     dataType: 'json',
                     success: function (res) {
@@ -29,7 +29,7 @@
 
                 $('#btnLogout').click(function () {
                     $.ajax({
-                        url: '/logout',
+                        url: 'http://localhost:3000/logout',
                         type: 'GET',
                         contentType: 'application/json;charset=utf-8',
                         success: function (res) {
