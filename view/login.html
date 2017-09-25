@@ -39,13 +39,14 @@
                 type: 'POST',
                 contentType: 'application/json;charset=utf-8',
                 dataType:'json',
+                xhrFields:{withCredentials:true},
                 data: JSON.stringify({
                     userName,
                     passWord
                 }),
                 success: function (res) {
                     if (res.message === 'success') {
-                        location.href = '/personal.html';
+                        location.href = 'personal.html';
                     }
                     else if (res.message === 'error') {
                         alert('用户名或密码错误！');

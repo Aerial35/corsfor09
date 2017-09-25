@@ -22,6 +22,7 @@
                     url: 'http://localhost:3000/profile',
                     type: 'GET',
                     dataType: 'json',
+                    xhrFields:{withCredentials:true},
                     success: function (res) {
                         $('#userName').html(res.userName);
                     }
@@ -32,9 +33,10 @@
                         url: 'http://localhost:3000/logout',
                         type: 'GET',
                         contentType: 'application/json;charset=utf-8',
+                        xhrFields:{withCredentials:true},
                         success: function (res) {
                             if (res.message === 'success') {
-                                location.href = '/login.html';
+                                location.href = 'login.html';
                             }
                         }
                     })
