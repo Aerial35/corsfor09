@@ -8,7 +8,7 @@ var app = express();
 
 var gUserName = '123';                  // 配置用户名
 var gPassWord = '123';                  // 配置密码
-var gMaxHour = 3 * 60 * 1000;           // 配置session过期时间
+var gMaxHour = 1 * 60 * 1000;           // 配置session过期时间,以毫秒为单位
 
 app.engine('html', ejs.__express);      // 设置html引擎，ejs模版
 app.set('view engine', 'html');         // 设置视图引擎
@@ -34,11 +34,14 @@ app.get('/login.html', function (req, res) {
 });
 // 个人信息页面
 app.get('/personal.html', function (req, res) {
-    if (!req.session.userName) {                // 判断是否已登录，未登录渲染unlogin页面
+    if (!req.session.user) {                // 判断是否已登录，未登录渲染unlogin页面
         res.render('unlogin');
     }
     else {
-        console.log(req.session.id, req.session.userName)
+        //向浏览器写入cookie，注意cookie有时间限制
+       // res.cookie('username',req.session.user.name
+         //   , { expires: new Date(Date.now() + 10000), httpOnly: false });
+        console.log(req.session.user.id, req.session.user.name)
         res.render('personal');
     }
 });
@@ -47,8 +50,9 @@ app.get('/personal.html', function (req, res) {
 app.post('/login', function (req, res) {
     var userName = req.body.userName;
     var passWord = req.body.passWord;
+    //判断输入的用户名密码是否正确
     if (userName === gUserName && passWord === gPassWord) {
-        req.session.userName = {userName};
+        req.session.user = {id:userName,name:userName};
         res.send({message: 'success'});
     }
     else {
@@ -56,15 +60,17 @@ app.post('/login', function (req, res) {
     }
 });
 
-// 获取用户信息接口
-app.get('/profile', function (req, res) {
-    res.send({userName: gUserName});
-});
-
 // 登出接口
 app.get('/logout', function (req, res) {
     req.session.user = null;
     res.send({message: 'success'});
+});
+
+// 获取用户信息接口
+app.get('/profile', function (req, res) {
+
+    //console.log(req.cookies.username) //读取浏览器传过来的cookie
+    res.send({userName: req.session.user.name});
 });
 
 // 启动服务
