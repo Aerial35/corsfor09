@@ -32,10 +32,13 @@ app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:13131");
     res.header("Access-Control-Allow-Credentials", "true");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
+    //res.header( 'Content-Type',"text/html; charset=gbk");
     next();
 })
 // 登录页面
 app.get('/login.html', function (req, res) {
+
+   res.setHeader('content-type', "text/html; charset=gbk");
     res.render('login');
 });
 // 个人信息页面

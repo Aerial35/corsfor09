@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<header>
-    <title>ä¸ªäººä¿¡æ¯ç³»ç»Ÿ</title>
+<html>
+
+<head>
+    <meta charset="GBK">
+    <title>¸öÈËĞÅÏ¢ÏµÍ³</title>
     <style>
         .wrap {
             margin-top: 150px;
@@ -13,18 +16,18 @@
             width: 50px;
         }
     </style>
-</header>
+</head>
 <body>
 <!-- <form class="wrap" action="login" method="post"> -->
 <div class="wrap">
     <div class="item">
-        <label class="label">ç”¨æˆ·ï¼š</label><input placeholder="è¯·è¾“å…¥ç”¨æˆ·å" name="username" id="userName"/>
+        <label class="label">ÓÃ»§£º</label><input placeholder="ÇëÊäÈëÓÃ»§Ãû" name="username" id="userName"/>
     </div>
     <div class="item">
-        <label class="label">å¯†ç ï¼š</label><input type="password" placeholder="è¯·è¾“å…¥å¯†ç " name="password" id="passWord"/>
+        <label class="label">ÃÜÂë£º</label><input type="password" placeholder="ÇëÊäÈëÃÜÂë" name="password" id="passWord"/>
     </div>
     <div class="item">
-        <button class="label" id="btnLogin">ç™»å½•</button>
+        <button class="label" id="btnLogin">µÇÂ¼</button>
     </div>
 </div>
 <!-- </form> -->
@@ -35,7 +38,7 @@
             var userName = $('#userName').val();
             var passWord = $('#passWord').val();
             $.ajax({
-                url: 'http://localhost:3000/login',
+                url: 'http://localhost:63343/testphp/login.php',
                 type: 'POST',
                 contentType: 'application/json;charset=utf-8',
                 dataType:'json',
@@ -49,7 +52,7 @@
                         location.href = 'personal.html';
                     }
                     else if (res.message === 'error') {
-                        alert('ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯ï¼');
+                        alert('ÓÃ»§Ãû»òÃÜÂë´íÎó£¡');
                     }
                 }
             })

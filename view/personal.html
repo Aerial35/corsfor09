@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-    <header>
+    <head>
+    <meta charset="UTF-8"/>
         <title>个人信息系统</title>
         <style>
             .wrap {
@@ -7,17 +8,38 @@
                 text-align: center;
             }
         </style>
-    </header>
+    </head>
     <body>
         <div class="wrap">
             <div id="userName"></div>
             <button id="btnLogout">登出</button>
+            <div>今天气温:<span id="wendu"></span></div>
         </div>
         <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-        <script src="/js-cookie.js"></script>
+        <script src="../static/js-cookie.js"></script>
 
         <script>
             $(document).ready(function () {
+
+                $.ajax({
+                    url: 'http://wthrcdn.etouch.cn/weather_mini?citykey=101210701',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (res) {
+                        $('#wendu').html(res.data.city+res.data.wendu+","+res.data.ganmao);
+                    }
+                });
+
+                $.ajax({
+                    url: 'http://www.weather.com.cn/data/cityinfo/101210701.html',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (res) {
+                        $('#wendu').html('最低气温'+res.weatherinfo.temp1+res.data.temp2+",最高气温"+res.weatherinfo.temp2);
+                    }
+                });
+
+
                 $.ajax({
                     url: 'http://localhost:3000/profile',
                     type: 'GET',
